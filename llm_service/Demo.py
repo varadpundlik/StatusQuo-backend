@@ -2,8 +2,13 @@ import os
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from llama_index.core.response.pprint_utils import pprint_response
 from fastapi import FastAPI, HTTPException, Query
-
-os.environ['OPENAI_API_KEY'] = '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'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+# Get API key from environment variable
+api_key = os.getenv("OPENAI_API_KEY")
+print(api_key)
+os.environ['OPENAI_API_KEY'] = api_key
 
 docs = SimpleDirectoryReader("Pdfs").load_data()
 idx = VectorStoreIndex.from_documents(docs, show_progress = True)
