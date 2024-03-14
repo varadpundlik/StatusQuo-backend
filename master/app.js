@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import config from './config/index.js';
 
 const app = express();
+app.use(express.json());
 mongoose
   .connect(config.db_host)
   .catch((err) => {

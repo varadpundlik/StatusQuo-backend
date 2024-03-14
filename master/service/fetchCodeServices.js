@@ -1,4 +1,4 @@
-const fetchCommitList = async(octokit, repositoryOwner, repositoryName)=> {
+const fetchCommitList = async(octokit,repositoryOwner, repositoryName)=> {
     try {
         const response = await octokit.request("GET /repos/{owner}/{repo}/commits", {
             owner: repositoryOwner,
@@ -12,7 +12,7 @@ const fetchCommitList = async(octokit, repositoryOwner, repositoryName)=> {
     }
 }
 
-async function fetchTree(commitSha) {
+async function fetchTree(octokit,commitSha,repositoryOwner, repositoryName) {
     try {
         const response = await octokit.request("GET /repos/{owner}/{repo}/git/trees/{tree_sha}", {
             owner: repositoryOwner,
@@ -28,36 +28,7 @@ async function fetchTree(commitSha) {
     }
 }
 
-async function fetchLatestCommit(octokit, repositoryOwner, repositoryName) {
-    try {
-        const response = await octokit.repos.getLatestCommit({
-            owner: repositoryOwner,
-            repo: repositoryName,
-        });
-        return response.data.sha;
-    } catch (error) {
-        console.error("Error fetching latest commit:", error);
-        throw error;
-    }
-}
-
-async function fetchFiles(commitSha) {
-    try {
-        const response = await octokit.repos.getCommit({
-            owner: repositoryOwner,
-            repo: repositoryName,
-            ref: commitSha,
-        });
-        return response.data.files;
-    } catch (error) {
-        console.error("Error fetching files:", error);
-        throw error;
-    }
-}
-
 export {
     fetchCommitList,
     fetchTree,
-    fetchLatestCommit,
-    fetchFiles,
 };

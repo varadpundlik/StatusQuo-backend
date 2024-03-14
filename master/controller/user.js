@@ -10,8 +10,10 @@ const fetchUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-    const user = new User(req.body);
     try {
+        console.log(req.body);
+        const user = new User(req.body);
+        console.log(user);
         await user.save();
         res.status(201).json(user);
     } catch (error) {
