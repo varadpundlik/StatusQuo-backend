@@ -1,9 +1,9 @@
-import express from 'express';
-import { fetchProject,createProject } from '../controller/project.js';
+const express = require('express');
+const {fetchProject, createProject} =require('../controller/project');
 
 const router = express.Router();
 
 router.get('/:projectId', fetchProject);
 router.post('/', createProject);
 
-export default router;
+module.exports =router;

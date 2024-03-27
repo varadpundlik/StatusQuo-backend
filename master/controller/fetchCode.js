@@ -1,11 +1,11 @@
-import fs from "fs";
-import dotenv from "dotenv";
-import { Octokit } from "@octokit/rest";
-import PDFDocument from "pdfkit";
-import Project from "../models/project.js";
-import User from "../models/user.js";
-import { fetchCommitList, fetchTree } from "../service/fetchCodeServices.js";
-
+const fs = require("fs");
+const path = require("path");
+const PDFDocument = require("pdfkit");
+const { Octokit } = require("@octokit/rest");
+const Project  = require("../models/project");
+const  User  = require("../models/user");
+const { fetchCommitList, fetchTree } = require("../service/fetchCodeServices");
+const dotenv = require("dotenv");
 dotenv.config();
 
 const initGithub = async (req, res) => {
@@ -27,8 +27,10 @@ const fetchCurrentCode = async (req, res) => {
         const doc = new PDFDocument();
         const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
         const outputPath = `${repositoryName}_${currentDate}_latest.pdf`;
+        console.log(outputPath);
 
-        doc.pipe(fs.createWriteStream(outputPath));
+        const pdfPath = path.join(__dirname, `../../llm_service/Pdfs/${outputPath}`);
+        doc.pipe(fs.createWriteStream(pdfPath));
 
         doc.fontSize(24).text("Repository Code", { align: "center" });
         doc.moveDown();
@@ -64,6 +66,8 @@ const fetchCurrentCode = async (req, res) => {
         }
         doc.end();
         console.log("PDF generated successfully");
+        const destinationPath = path.join(__dirname, `../../llm_service/Pdfs/${outputPath}`);
+        fs.renameSync(pdfPath, destinationPath);
         res.status(200).json({ message: `PDF generated successfully: ${outputPath}` });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -126,7 +130,9 @@ const fetchCommitWiseCode = async (req, res) => {
 
     doc.end();
     console.log(`PDF generated successfully: ${outputPath}`);
+    const destinationPath = path.join(__dirname, `../../llm_service/Pdfs/${outputPath}`);
+        fs.renameSync(pdfPath, destinationPath);
     res.status(200).json({ message: `PDF generated successfully: ${outputPath}` });
 };
 
-export { fetchCurrentCode, fetchCommitWiseCode };
+module.exports = { fetchCurrentCode, fetchCommitWiseCode };

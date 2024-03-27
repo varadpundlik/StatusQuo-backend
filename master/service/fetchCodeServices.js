@@ -28,7 +28,7 @@ async function fetchTree(octokit,commitSha,repositoryOwner, repositoryName) {
     }
 }
 
-export {
+module.exports= {
     fetchCommitList,
     fetchTree,
 };

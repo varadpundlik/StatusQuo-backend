@@ -1,4 +1,4 @@
-import User from "../models/user.js";
+const User = require('../models/user');
 
 const fetchUser = async (req, res) => {
     try {
@@ -21,4 +21,4 @@ const createUser = async (req, res) => {
     }
 };
 
-export { fetchUser, createUser };
+module.exports = { fetchUser, createUser };

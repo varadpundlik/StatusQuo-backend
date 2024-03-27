@@ -1,8 +1,8 @@
-import userRouter from './user.js';
-import projectRouter from './project.js';
-import fetchCodeRouter from './code.js';
+const userRouter = require('./user');
+const projectRouter = require('./project');
+const fetchCodeRouter = require('./code');
 
-export default (app) => {
+module.exports = (app) => {
     app.use('/user', userRouter);
     app.use('/project', projectRouter);
     app.use('/fetch-code', fetchCodeRouter);

@@ -1,7 +1,8 @@
-import express from 'express';
-import routes from './routes/index.js';
-import mongoose from 'mongoose';
-import config from './config/index.js';
+const express = require('express');
+const mongoose = require('mongoose');
+const config = require('./config');
+const routes = require('./routes');
+
 
 const app = express();
 app.use(express.json());

@@ -1,13 +1,15 @@
 {
   "dependencies": {
     "@octokit/rest": "^20.0.2",
+    "axios": "^1.6.8",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
     "mongoose": "^8.2.1",
     "node-fetch": "^3.3.2",
     "octokit": "^3.1.2",
-    "pdfkit": "^0.14.0"
+    "pdfkit": "^0.14.0",
+    "websocket": "^1.0.34"
   },
-  "type": "module"
+  "type": "commonjs"
 }

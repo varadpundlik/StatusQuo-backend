@@ -1,4 +1,4 @@
-import Project from "../models/project.js";
+const Project = require('../models/project');
 
 const fetchProject = async (req, res) => {
     try {
@@ -19,4 +19,4 @@ const createProject = async (req, res) => {
     }
 };
 
-export { fetchProject, createProject };
+module.exports= { fetchProject, createProject };
