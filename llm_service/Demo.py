@@ -19,7 +19,7 @@ app = FastAPI()
 async def query_documents(query: str = Query(..., title="Query", description="The query to be executed")):
     try:
         response = Qry_Engn.query(query)
-        pprint_response(response, show_source=True)
+        # pprint_response(response, show_source=True)
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

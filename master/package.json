@@ -1,11 +1,22 @@
 {
+  "name": "statusquo_backend",
+  "version": "1.0.0",
+  "description": "INC",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "The Error404 Team",
+  "license": "ISC",
   "dependencies": {
     "@octokit/rest": "^20.0.2",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
-    "mongoose": "^8.2.1",
+    "express-ws": "^5.0.2",
+    "mongoose": "^8.2.4",
     "node-fetch": "^3.3.2",
     "octokit": "^3.1.2",
     "pdfkit": "^0.14.0",
