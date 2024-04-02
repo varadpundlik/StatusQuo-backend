@@ -36,7 +36,7 @@ const chatbotOutputResponse = async (ws, data) => {
     const chatbot = new Chatbot({
       query,
       response,
-      user: user._id,
+      user: user.userId,
     });
 
     await chatbot.save();
@@ -49,22 +49,21 @@ const chatbotOutputResponse = async (ws, data) => {
 
 const saveToDocument = async (ws, data) => {
   try {
-    const doc = await document.findOne({ user: ws.userId }).sort({ _id: -1 }).exec();
+    const doc = await Document.findOne({ user: ws.userId }).sort({ _id: -1 }).exec();
 
     if (!doc) {
       ws.send(JSON.stringify({ message: 'User not found' }));
       return;
     }
 
-    const newDoc = new document({
-      doc
-    });
+    doc.document_content += '\n' + data;
 
-    await newDoc.save();
+    await doc.save();
 
     ws.send(JSON.stringify({ message: 'Last response added in document successfully' }));
   } catch (e) {
     ws.send(JSON.stringify({ message: 'Error adding in document', error: e.message }));
   }
 };
+
 module.exports = { chatbotQuery, chatbotOutputResponse, saveToDocument };
