@@ -34,5 +34,17 @@ router.ws('/chatbot-response', (ws, req) => {
     console.log('Connection closed for /chatbot-response');
   });
 });
+router.ws('/create_doc', (ws, req) => {
+  ws.userId = req.query.userId; 
+  
+  ws.on('message', async (message) => {
+    const data = JSON.parse(message);
+    await chatbotController.saveToDocument(ws, data);
+  });
+
+  ws.on('close', () => {
+    console.log('Connection closed for /chatbot-response');
+  });
+});
 
 module.exports = router;

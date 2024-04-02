@@ -3,6 +3,7 @@ const projectRouter = require('./project');
 const fetchCodeRouter = require('./code');
 const statusRouter = require('./status');
 const chatbotRouter = require('./chatbot');
+const documentRouter = require('./document');
 
 module.exports = (app) => {
     app.use('/user', userRouter);
@@ -10,4 +11,5 @@ module.exports = (app) => {
     app.use('/status', statusRouter);
     app.use('/fetch-code', fetchCodeRouter);
     app.use('/chatbot', chatbotRouter);
+    app.use('/document', documentRouter);
 }

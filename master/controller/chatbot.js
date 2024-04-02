@@ -1,8 +1,9 @@
 const axios = require('axios');
 const Chatbot = require('../models/chatbot');
+const document = require('../models/document');
 const User = require('../models/user');
 
-exports.chatbotQuery = async (ws, data) => {
+const chatbotQuery = async (ws, data) => {
   try {
     const query = data.query;
 
@@ -22,19 +23,15 @@ exports.chatbotQuery = async (ws, data) => {
   }
 };
 
-exports.chatbotOutputResponse = async (ws, data) => {
+const chatbotOutputResponse = async (ws, data) => {
   try {
     const { query, response } = data;
-    // console.log("--------------");
-    // console.log(ws.userId);
-    
     const user = await User.findOne({ _id: ws.userId });
 
     if (!user) {
       ws.send(JSON.stringify({ message: 'User not found' }));
       return;
     }
-    // console.log(user);
 
     const chatbot = new Chatbot({
       query,
@@ -49,3 +46,25 @@ exports.chatbotOutputResponse = async (ws, data) => {
     ws.send(JSON.stringify({ message: 'Error saving chatbot response', error: e.message }));
   }
 };
+
+const saveToDocument = async (ws, data) => {
+  try {
+    const doc = await document.findOne({ user: ws.userId }).sort({ _id: -1 }).exec();
+
+    if (!doc) {
+      ws.send(JSON.stringify({ message: 'User not found' }));
+      return;
+    }
+
+    const newDoc = new document({
+      doc
+    });
+
+    await newDoc.save();
+
+    ws.send(JSON.stringify({ message: 'Last response added in document successfully' }));
+  } catch (e) {
+    ws.send(JSON.stringify({ message: 'Error adding in document', error: e.message }));
+  }
+};
+module.exports = { chatbotQuery, chatbotOutputResponse, saveToDocument };
