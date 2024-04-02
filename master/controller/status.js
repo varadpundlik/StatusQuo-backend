@@ -27,7 +27,7 @@ const getStatus = async (req, res) => {
         const outputPath = await fetchCodeUtil(req, res);
         const status = await askLLM(prompt);
         console.log(status);
-        res.status(200).send(status.response);
+        res.status(200).json(JSON.parse(status.response));
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
