@@ -80,7 +80,12 @@ const fetchCodeUtil = async (req, res) => {
 };
 
 const fetchCommitWiseCode = async (req, res) => {
-    const { octokit, repositoryOwner, repositoryName } = await initGithub(req, res);
+
+    var { octokit, repositoryOwner, repositoryName } = await initGithub(req, res);
+    console.log("---------------")
+    console.log(repositoryOwner)
+    console.log(repositoryName)
+    console.log("---------------")
     const doc = new PDFDocument();
     const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
     const outputPath = `${repositoryName}_${currentDate}_commitwise.pdf`;
