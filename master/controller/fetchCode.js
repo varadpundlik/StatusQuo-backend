@@ -10,6 +10,7 @@ dotenv.config();
 
 const initGithub = async (req, res) => {
     const project = await Project.findOne({ _id: req.params.projectId }).exec();
+    console.log(project);
     const owner = await User.findOne({ _id: project.user }).exec();
 
     const repositoryOwner = owner.github.username; // Replace with the repository owner's username

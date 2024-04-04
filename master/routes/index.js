@@ -5,6 +5,7 @@ const statusRouter = require('./status');
 const chatbotRouter = require('./chatbot');
 const documentRouter = require('./document');
 const pullRequestRouter = require('./pull_request');
+const issueRouter = require('./issue');
 
 module.exports = (app) => {
     app.use('/user', userRouter);
@@ -14,4 +15,5 @@ module.exports = (app) => {
     app.use('/chatbot', chatbotRouter);
     app.use('/document', documentRouter);
     app.use('/pull-request', pullRequestRouter);
+    app.use('/issue', issueRouter);
 }

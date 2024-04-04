@@ -74,12 +74,18 @@ async function listenForPullRequests(req, res) {
         let prs = [];
         // Process the response and trigger the appropriate function
         console.log("Pull Requests:", resp.data);
-        resp.data.forEach(pr => {
-            const { reviewPrompt, response } = handlePullRequestEvent({ pull_request: pr }, octokit, repositoryOwner, repositoryName);
-            console.log("Review Prompt:", reviewPrompt);
-            console.log("Response:", response);
-            prs.push({ reviewPrompt, response });
-        });
+
+        await Promise.all(
+            resp.data.map(async pr => {
+                if (pr.node_id.charAt(0) === "P") {
+                    const { reviewPrompt, response } = await handlePullRequestEvent({ pull_request: pr }, octokit, repositoryOwner, repositoryName);
+                    console.log("Review Prompt:", reviewPrompt);
+                    console.log("Response:", response);
+                    await prs.push({ pr:reviewPrompt, review:response, number:pr.number, title:pr.title, body:pr.body, user:pr.user.login, url:pr.url});
+                }
+            }),
+        );
+
         res.status(200).json({ message: "Pull Requests processed successfully", prs });
     } catch (error) {
         console.error("Error:", error.message);
