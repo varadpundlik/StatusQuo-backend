@@ -1,4 +1,5 @@
 const Project = require('../models/project');
+const User = require('../models/user');
 
 const fetchProject = async (req, res) => {
     try {
@@ -29,7 +30,7 @@ const createProject = async (req, res) => {
 
 const getMyProjects = async (req, res) => {
     try {
-        const user= await User.findOne({ email: req.params.email });
+        const user= await User.findOne({ email: req.params.email }).exec();
         const projects = await Project.find({ user: user._id }).exec();
         res.status(200).json(projects);
     } catch (error) {

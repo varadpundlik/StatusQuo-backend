@@ -26,9 +26,15 @@ const getStatus = async (req, res) => {
         const prompt = await framePrompt(req.params.projectId);
         const outputPath = await fetchCodeUtil(req, res);
         const status = await askLLM(prompt);
-        console.log(status);
-        res.status(200).json(JSON.parse(status.response));
+        console.log(status.response);
+        const st=JSON.parse(status.response);
+        st.date=new Date();
+        const project = await Project.findOne({ _id: req.params.projectId }).exec();
+        project.statuses.push(st);
+        await project.save();
+        res.status(200).json(st);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: error.message });
     }
 };
