@@ -31,6 +31,9 @@ const createProject = async (req, res) => {
 const getMyProjects = async (req, res) => {
     try {
         const user= await User.findOne({ email: req.params.email }).exec();
+        if(!user){
+            return res.status(404).json({ message: "User not found" });
+        }
         const projects = await Project.find({ user: user._id }).exec();
         res.status(200).json(projects);
     } catch (error) {
