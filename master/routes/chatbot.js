@@ -10,6 +10,7 @@ const chatbotController = require('../controller/chatbot');
 router.ws('/chatbot-query', (ws, req) => {
   ws.on('message', async (message) => {
     try {
+      console.log("qwertyuio")
       const data = JSON.parse(message);
       await chatbotController.chatbotQuery(ws, data);
     } catch (e) {

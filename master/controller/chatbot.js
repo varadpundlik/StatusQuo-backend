@@ -8,7 +8,6 @@ const chatbotQuery = async (ws, data) => {
     const query = data.query;
 
     const mlResponse = await axios.get(`http://127.0.0.1:8080/query/?query=${query}`);
-
     
     const response = mlResponse.data.response; 
 
@@ -21,6 +20,8 @@ const chatbotQuery = async (ws, data) => {
 const chatbotOutputResponse = async (ws, data) => {
   try {
     const { query, response } = data;
+
+    // Assuming you have a User model and a userId is attached to the WebSocket
     const user = await User.findOne({ _id: ws.userId });
 
     if (!user) {

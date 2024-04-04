@@ -2,7 +2,8 @@ const axios = require('axios');
 
 const askLLM = async (prompt) => {
     try{
-        const response = await axios.get(`http://localhost:6000/query/?query=${prompt}`);
+        const response = await axios.get(`http://localhost:8080/query/?query=${prompt}`);
+        console.log(response.data)
         return response.data;
     }catch(error){
         console.log(error.message);

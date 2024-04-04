@@ -15,7 +15,7 @@ const initGithub = async (req, res) => {
     console.log(repositoryOwner + " " + repositoryName); // Your GitHub Personal Access Token
     console.log(accessToken);
 
-    const octokit = new Octokit({ auth: accessToken });
+    const octokit = new Octokit({ baseUrl: "https://api.github.com", auth: accessToken });
 
     return { octokit, repositoryOwner, repositoryName };
 };
