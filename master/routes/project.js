@@ -1,8 +1,9 @@
 const express = require('express');
-const {fetchProject, createProject} =require('../controller/project');
+const {fetchProject, createProject,fetchAllProject} =require('../controller/project');
 
 const router = express.Router();
 
+router.get('/getAll', fetchAllProject);
 router.get('/:projectId', fetchProject);
 router.post('/', createProject);
 

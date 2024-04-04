@@ -8,6 +8,14 @@ const fetchProject = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+const fetchAllProject = async (req, res) => {
+    try {
+        const project = await Project.findOne({ }).exec();
+        res.status(200).json(project);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 const createProject = async (req, res) => {
     const project = new Project(req.body);
@@ -19,4 +27,4 @@ const createProject = async (req, res) => {
     }
 };
 
-module.exports= { fetchProject, createProject };
+module.exports= { fetchProject, createProject,fetchAllProject };

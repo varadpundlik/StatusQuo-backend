@@ -8,14 +8,9 @@ const chatbotQuery = async (ws, data) => {
     const query = data.query;
 
     const mlResponse = await axios.get(`http://127.0.0.1:8080/query/?query=${query}`);
-    // console.log("__________");
-    // console.log(mlResponse.data);
-    // console.log("___________");
+
     
     const response = mlResponse.data.response; 
-    // console.log("============");
-    // console.log(response);
-    // console.log("============");
 
     ws.send(JSON.stringify({ message: 'Query processed successfully', response }));
   } catch (e) {

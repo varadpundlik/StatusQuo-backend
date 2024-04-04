@@ -8,6 +8,19 @@ const fetchUser = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+const fetchAllUsers = async (req, res) => {
+    console.log("======")
+    try {
+        console.log("4567890")
+        const users = await User.find({});
+        res.status(200).json(users);
+    } catch (error) {
+        console.log("--------------")
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 
 const createUser = async (req, res) => {
     try {
@@ -21,4 +34,4 @@ const createUser = async (req, res) => {
     }
 };
 
-module.exports = { fetchUser, createUser };
+module.exports = { fetchUser, createUser ,fetchAllUsers};
