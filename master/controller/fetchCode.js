@@ -10,11 +10,14 @@ dotenv.config();
 
 const initGithub = async (req, res) => {
     const project = await Project.findOne({ _id: req.params.projectId }).exec();
+    console.log(project);
     const owner = await User.findOne({ _id: project.user }).exec();
 
     const repositoryOwner = owner.github.username; // Replace with the repository owner's username
     const repositoryName = project.repository_name; // Replace with the repository name
-    const accessToken = owner.github.token || process.env.token; // Your GitHub Personal Access Token
+    const accessToken = process.env.token;
+    console.log(repositoryOwner+" "+repositoryName) // Your GitHub Personal Access Token
+    console.log(accessToken);
 
     const octokit = new Octokit({ auth: accessToken });
 
