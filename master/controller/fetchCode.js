@@ -13,9 +13,9 @@ const initGithub = async (req, res) => {
     console.log(project);
     const owner = await User.findOne({ _id: project.user }).exec();
 
-    const repositoryOwner = owner.github.username; // Replace with the repository owner's username
+    const repositoryOwner = project.repository_owner || owner.github.username; // Replace with the repository owner's username
     const repositoryName = project.repository_name; // Replace with the repository name
-    const accessToken = process.env.token;
+    const accessToken = project.access_token || process.env.token;
     console.log(repositoryOwner+" "+repositoryName) // Your GitHub Personal Access Token
     console.log(accessToken);
 
