@@ -7,18 +7,18 @@ const mongoose = require("mongoose");
 
 const framePrompt = async id => {
     try {
-        console.log(id);
+    //     console.log(id);
         const project = await Project.findOne({ _id: id }).exec();
         if (!project) {
             throw new Error(`Project with ID ${id} not found`);
         }
         
         let statusPrompt = prompts.statusPrompt || ''; // initialize to empty string if undefined
-        console.log(project);
-        console.log(statusPrompt);
+        // console.log(project);
+        // console.log(statusPrompt);
 
         // append features json to statusPrompt string
-        statusPrompt += JSON.stringify(project);
+        statusPrompt += JSON.stringify(project.features);
         return statusPrompt;
     } catch (error) {
         console.log(error);
@@ -29,7 +29,7 @@ const framePrompt = async id => {
 const getStatus = async (req, res) => {
     try {
         const prompt = await framePrompt(req.params.projectId);
-        const outputPath = await fetchCodeUtil(req, res);
+        // const outputPath = await fetchCodeUtil(req, res);
         const status = await askLLM(prompt);
         
         if (!status || !status.response || status.response === 'undefined') {

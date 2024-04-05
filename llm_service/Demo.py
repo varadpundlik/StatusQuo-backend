@@ -18,7 +18,9 @@ app = FastAPI()
 @app.get("/query/")
 async def query_documents(query: str = Query(..., title="Query", description="The query to be executed")):
     try:
+        print(query)
         response = Qry_Engn.query(query)
+        print(response)
         # pprint_response(response, show_source=True)
         return response
     except Exception as e:

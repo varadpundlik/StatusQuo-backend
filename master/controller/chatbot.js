@@ -2,14 +2,16 @@ const axios = require('axios');
 const Chatbot = require('../models/chatbot');
 const document = require('../models/document');
 const User = require('../models/user');
+const askLLM = require('../service/askLLM');
 
 const chatbotQuery = async (ws, data) => {
   try {
     const query = data.query;
-
-    const mlResponse = await axios.get(`http://127.0.0.1:8080/query/?query=${query}`);
+    console.log(query);
+    const mlResponse = await askLLM(query);
     
-    const response = mlResponse.data.response; 
+    const response = mlResponse.response; 
+    console.log(response);
 
     ws.send(JSON.stringify({ message: 'Query processed successfully', response }));
   } catch (e) {
