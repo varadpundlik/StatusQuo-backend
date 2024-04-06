@@ -1,7 +1,7 @@
 const FormData = require("form-data");
 const axios = require("axios");
 const fs = require("fs");
-const path = require("path");
+const PDFDocument = require("pdfkit");
 
 async function uploadFile(filePath) {
     //replace \ with / in the file path
@@ -19,12 +19,12 @@ async function uploadFile(filePath) {
                 "Content-Type": "multipart/form-data",
             },
         });
-        console.log(response.data.message);
+        console.log(response.data);
     } catch (error) {
-        console.error("Error uploading file:", error);
+        console.error("Error uploading file:", error.message);
     }
 }
 
-uploadFile("D:/cs programs/ProjectAI/master/StatusQuo-backend_20240406_latest.pdf")
+//uploadFile("D:/cs programs/ProjectAI/master/StatusQuo-backend_20240406_latest.pdf")
 
-// module.exports = {uploadFile};
+module.exports = {uploadFile};

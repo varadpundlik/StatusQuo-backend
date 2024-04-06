@@ -75,12 +75,12 @@ const fetchCodeUtil = async (req, res) => {
             doc.moveDown();
         }
     }
-    doc.end();
-    console.log("PDF generated successfully");
+    await doc.end();
+    await console.log("PDF generated successfully");
     try {
-        const pdfPath = path.join(__dirname, `../${outputPath}`);
-        const output = await uploadFile(pdfPath); // Wait for file upload to complete   
+        const pdfPath = await path.join(__dirname, `../${outputPath}`);
         console.log(pdfPath);
+        const output = await uploadFile(pdfPath); // Wait for file upload to complete   
         return output;
     } catch (error) {
         console.error("Error uploading file:", error.message);
