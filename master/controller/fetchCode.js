@@ -5,6 +5,7 @@ const { Octokit } = require("@octokit/rest");
 const Project = require("../models/project");
 const User = require("../models/user");
 const { fetchCommitList, fetchTree } = require("../service/fetchCodeServices");
+const { uploadFile } = require("../service/upload");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -40,8 +41,7 @@ const fetchCodeUtil = async (req, res) => {
     const outputPath = `${repositoryName}_${currentDate}_latest.pdf`;
     console.log(outputPath);
 
-    const pdfPath = path.join(__dirname, `../../llm_service/Pdfs/${outputPath}`);
-    doc.pipe(fs.createWriteStream(pdfPath));
+    doc.pipe(fs.createWriteStream(outputPath));
 
     doc.fontSize(24).text("Repository Code", { align: "center" });
     doc.moveDown();
@@ -77,9 +77,15 @@ const fetchCodeUtil = async (req, res) => {
     }
     doc.end();
     console.log("PDF generated successfully");
-    const destinationPath = path.join(__dirname, `../../llm_service/Pdfs/${outputPath}`);
-    fs.renameSync(pdfPath, destinationPath);
-    return outputPath;
+    try {
+        const pdfPath = path.join(__dirname, `../${outputPath}`);
+        const output = await uploadFile(pdfPath); // Wait for file upload to complete   
+        console.log(pdfPath);
+        return output;
+    } catch (error) {
+        console.error("Error uploading file:", error.message);
+        throw new Error("Error uploading file");
+    }
 };
 
 const fetchCommitWiseCode = async (req, res) => {
