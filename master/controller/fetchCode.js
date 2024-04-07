@@ -77,8 +77,8 @@ const fetchCodeUtil = async (req, res) => {
             doc.moveDown();
         }
     }
-    doc.end();
-    console.log("PDF generated successfully");
+    await doc.end();
+    await console.log("PDF generated successfully");
     try {
         const dirpath = __dirname;
         const pdfPath = path.join(dirpath, `../${outputPath}`);
