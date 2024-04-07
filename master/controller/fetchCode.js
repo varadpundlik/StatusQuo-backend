@@ -5,9 +5,11 @@ const { Octokit } = require("@octokit/rest");
 const Project = require("../models/project");
 const User = require("../models/user");
 const { fetchCommitList, fetchTree } = require("../service/fetchCodeServices");
-const { uploadFile } = require("../service/upload");
+const { uploadPdf } = require("../service/uploadPdf");
+const { downloadAndIndexPDF } = require("../service/downloadAndIndexPDF");
 const dotenv = require("dotenv");
 dotenv.config();
+const axios = require("axios");
 
 const initGithub = async (req, res) => {
     const project = await Project.findOne({ _id: req.params.projectId }).exec();
@@ -17,7 +19,7 @@ const initGithub = async (req, res) => {
     const repositoryOwner = project.repository_owner || owner.github.username; // Replace with the repository owner's username
     const repositoryName = project.repository_name; // Replace with the repository name
     const accessToken = project.access_token || process.env.token;
-    console.log(repositoryOwner+" "+repositoryName) // Your GitHub Personal Access Token
+    console.log(repositoryOwner + " " + repositoryName); // Your GitHub Personal Access Token
     console.log(accessToken);
 
     const octokit = new Octokit({ auth: accessToken });
@@ -78,10 +80,15 @@ const fetchCodeUtil = async (req, res) => {
     doc.end();
     console.log("PDF generated successfully");
     try {
-        const pdfPath = path.join(__dirname, `../${outputPath}`);
-        const output = await uploadFile(pdfPath); // Wait for file upload to complete   
-        console.log(pdfPath);
-        return output;
+        const dirpath = __dirname;
+        const pdfPath = path.join(dirpath, `../${outputPath}`);
+        console.log("pdfPath", pdfPath);
+        const my_cloudinary_url = await uploadPdf(outputPath, pdfPath);
+        console.log("cloudinary url is :", my_cloudinary_url);
+        console.log("outputPath is :",outputPath);
+        const response= downloadAndIndexPDF(my_cloudinary_url,outputPath);
+
+        return response;
     } catch (error) {
         console.error("Error uploading file:", error.message);
         throw new Error("Error uploading file");
