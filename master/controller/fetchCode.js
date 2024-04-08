@@ -156,7 +156,7 @@ const fetchCommitWiseCode = async (req, res) => {
 
     doc.end();
     console.log(`PDF generated successfully: ${outputPath}`);
-    const pdfPath = path.join(dirpath, `../${outputPath}`);
+    const pdfPath = path.join(__dirname, `../${outputPath}`);
     const my_cloudinary_url = await uploadPdf(outputPath, pdfPath);
     
     console.log("cloudinary url is :", my_cloudinary_url);
