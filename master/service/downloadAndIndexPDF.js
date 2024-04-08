@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const apiUrl = 'http://127.0.0.1:6000/donwload_and_train/';
+const apiUrl = 'https://statusquo-fastapi.onrender.com/donwload_and_train/';
 
 async function downloadAndIndexPDF(url, name) {
     try {
