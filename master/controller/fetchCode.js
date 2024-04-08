@@ -88,7 +88,7 @@ const fetchCodeUtil = async (req, res) => {
         console.log("outputPath is :",outputPath);
         const response= downloadAndIndexPDF(my_cloudinary_url,outputPath);
 
-        return response;
+        return  res.status(200).json({ message: 'PDF genrated and model trained successfully ' });
     } catch (error) {
         console.error("Error uploading file:", error.message);
         throw new Error("Error uploading file");
@@ -156,9 +156,14 @@ const fetchCommitWiseCode = async (req, res) => {
 
     doc.end();
     console.log(`PDF generated successfully: ${outputPath}`);
-    const destinationPath = path.join(__dirname, `../../llm_service/Pdfs/${outputPath}`);
-    fs.renameSync(pdfPath, destinationPath);
-    res.status(200).json({ message: `PDF generated successfully: ${outputPath}` });
+    const pdfPath = path.join(dirpath, `../${outputPath}`);
+    const my_cloudinary_url = await uploadPdf(outputPath, pdfPath);
+    
+    console.log("cloudinary url is :", my_cloudinary_url);
+    console.log("outputPath is :",outputPath);
+    const response= downloadAndIndexPDF(my_cloudinary_url,outputPath);
+    return  res.status(200).json({ message: 'PDF generated and model trained successfully ' });;
+    
 };
 
 module.exports = { fetchCurrentCode, fetchCodeUtil, fetchCommitWiseCode };
